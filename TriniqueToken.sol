@@ -129,38 +129,8 @@ contract TriniqueToken is ERC20, ERC20Burnable,Ownable,ERC20Pausable,Burnable{
     /**************           Burn           ************/
     /****************************************************/
     function burnRedeem(uint256 amount) public onlyBurner {
-        burn(amount * 10**decimals());
+        burn(amount);
     }
-
-    /****************************************************/
-    /**************       Multi Send         ************/
-    /****************************************************/
-    function multiSend(address[] calldata froms, address[] calldata tos, uint256[] calldata values) external whenNotPaused {
-        require(froms.length == tos.length && tos.length == values.length, "Invalid input arrays");
-
-        uint256 totalValue;
-
-        for (uint i = 0; i < froms.length; i++) {
-            require(!isBlackListed[froms[i]], "Sender is blacklisted");
-
-            // Add a check for total value
-            totalValue += values[i];
-
-            require(totalValue <= type(uint256).max, "Total value overflow");
-
-            _update(froms[i], tos[i], values[i]);
-
-            // Emit TransferSuccess event
-            emit TransferSuccess(froms[i], tos[i], values[i]);
-        }
-    }
-
-    // Event to announce successful transfers
-    event TransferSuccess(address indexed from, address indexed to, uint256 value);
-
-    // Event to announce errors
-    event TransferError(address indexed from, address indexed to, uint256 value, string errorMessage);
-
 
     /****************************************************/
     /**************       BLACK LIST         ************/
