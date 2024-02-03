@@ -26,7 +26,8 @@ contract MultiSigWallet {
     // func: is number to identify function to call
     //   1xx: internal function
     //       101: addOwner
-    //       102: 
+    //       102: removeOwner
+    //       103: changeRequiredConfirmations
     //   2xx: external function 
     struct Transaction{
         address to;
